@@ -1,8 +1,11 @@
 import { Request, Response, NextFunction } from "express";
+import {verify} from 'jsonwebtoken'
 import { getGoogleOAuthTokens, jwtDecode, generatePasswordSalt, comparePassword } from "../services/auth.services";
 import { findAndUpdateuser, insertOne } from "../databases/mongo/method";
 import { signJwt } from "../utils/jwt.utils";
 import { findOne } from "../databases/mongo/method";
+import configClass from "../configs";
+import { HttpException } from "../interfaces/http.exception";
 
 class AuthController {
   public googleOauth = async (
@@ -120,6 +123,23 @@ class AuthController {
     }
 
 
+  }
+
+  public tokenValidator = async (req:Request,res: Response,next:NextFunction) => {
+    try {
+      const token = req.header('accessToken') ? req.header('accessToken') : null
+      if(token){
+        let data :any= (await verify(token, configClass.initialize().Salt.salt));
+        const userData = {
+          user_name:data.user_name || '',
+          user_email:data.user_email || ''
+        }
+      }else {
+        next(new HttpException(404, 'Authentication token missing'));
+      }
+    } catch (error) {
+      next(new HttpException(401,'Wrong Authentication'))
+    }
   }
 }
 

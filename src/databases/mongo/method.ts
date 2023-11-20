@@ -1,33 +1,48 @@
 import MongoClientClass from "./setup"
 import {} from 'mongodb'
-let mongoClient = MongoClientClass.initialize()
 
-
-export async function findOne(collection_name: string,params:any){
-    try {
-        let collection = mongoClient.collection(collection_name)
-        let data = await collection.find(params).toArray();        
-        return data[0] || {};
-    } catch (error) {
-        console.log(error);
-        throw error
+export class MongoMethod {
+    mongoClient: MongoClientClass = MongoClientClass.initialize()
+    static instance: MongoMethod
+    private constructor() {
     }
-}
-
-export async function insertOne(collection_name:string,params:any) {
-    try {
-        let collection = mongoClient.collection(collection_name);
-        collection.insertOne(params)
-    } catch (error) {
-        
+  
+    public static initialize() {
+      if (!this.instance) {
+        this.instance = new MongoMethod();
+      }
+      return this.instance;
     }
-}
 
-export async function findAndUpdateuser(filter:any,update:any,collection_name: string){
-    try {
-        let collection = mongoClient.collection(collection_name);
-        return await collection.findOneAndUpdate(filter,update,{upsert: true})
-    } catch (error) {
-        
+    public async findOne(collection_name: string,params:any){
+        try {
+            let collection = this.mongoClient.collection(collection_name)
+            let data = await collection.find(params).toArray();        
+            return data[0] || {};
+        } catch (error) {
+            console.log(error);
+            throw error
+        }
     }
+    
+    public async insertOne(collection_name:string,params:any) {
+        try {
+            let collection = this.mongoClient.collection(collection_name);
+            collection.insertOne(params)
+        } catch (error) {
+            
+        }
+    }
+    
+    public async findAndUpdateuser(filter:any,update:any,collection_name: string){
+        try {
+            let collection = this.mongoClient.collection(collection_name);
+            return await collection.findOneAndUpdate(filter,update,{upsert: true})
+        } catch (error) {
+            
+        }
+    }
+
+
+
 }
