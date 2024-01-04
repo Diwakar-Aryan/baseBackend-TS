@@ -19,6 +19,22 @@ class FileController {
       next(error);
     }
   };
+  public getFile = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    try {
+      const options: fileUploadType = req.body;
+      const response = await this.fileService.getFiles();
+      res
+        .status(response.statusCode)
+        .json({ data: response.data, message: response.message });
+    } catch (error) {
+      console.error(error);
+      next(error);
+    }
+  };
 }
 
 export default FileController;

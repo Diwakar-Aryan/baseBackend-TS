@@ -23,40 +23,54 @@ export default class FileService {
 
   public async postFiles(options: fileUploadType) {
     try {
-
       if (!options.project_id) {
-        options.project_id =uuidv4()
+        options.project_id = uuidv4();
         const projectInsertData = {
+          project_name:"Default",
           project_id: options.project_id,
           created_at: new Date(),
           updated_at: new Date(),
         };
-        await this.mongoMethods.insertOne('projects',projectInsertData)
+        await this.mongoMethods.insertOne("projects", projectInsertData);
       }
-      let fileInsertData:any ={
+      let fileInsertData: any = {
         project_id: options.project_id,
-        files:[],
-      }
+        files: [],
+      };
       for (let file of options.files) {
         fileInsertData.files.push({
-            file_name:file.name,
-            file_size: file.size,
-            file_url: `http://fileUploadService.com/${options.project_id}/${file.name}`,
-            created_at: new Date()
-        })
+          file_name: file.name,
+          file_size: file.size,
+          file_url: `http://localhost:3000/${options.project_id}/${file.name}`,
+          created_at: new Date(),
+        });
       }
-      await this.mongoMethods.insertOne('files',fileInsertData)
+      await this.mongoMethods.insertOne("files", fileInsertData);
 
-      return new HttpResponse(
-        "File Posted",
-        "",
-        HttpStatus.OK
-      );
+      return new HttpResponse("File Posted", "", HttpStatus.OK);
     } catch (error) {
       console.error(error);
       throw new HttpException(
         HttpStatus.INTERNAL_SERVER_ERROR,
-        "Error when fetching presignedUrl"
+        "Error when posting Files"
+      );
+    }
+  }
+
+  public async getFiles(){
+    try {
+      let files = []
+      let data = await this.mongoMethods.findAll("files",{})
+      for(let obj of data){
+        files.push(obj.files[0])
+      }
+      return new HttpResponse("File Posted",files, HttpStatus.OK);
+
+    } catch (error) {
+      console.error(error);
+      throw new HttpException(
+        HttpStatus.INTERNAL_SERVER_ERROR,
+        "Error when posting Files"
       );
     }
   }

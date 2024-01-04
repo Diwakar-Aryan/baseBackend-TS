@@ -3,15 +3,21 @@ import bodyParser from "body-parser";
 import { Routes } from "./interfaces/routes.interface";
 import configClass from "./configs";
 import { errorMiddleware } from "./middlewares/error.middleware";
+import cors from "cors";
+import { Server } from "socket.io";
+import { createServer } from "http";
+
 class App {
   private app: express.Application;
   private config = configClass.initialize();
+
   constructor(routes: Routes[]) {
     this.app = express();
-    this.initializeMiddlewares()
+    this.initializeMiddlewares();
     this.app.use(bodyParser.json());
+    this.app.use(cors());
     this.initializeRoutes(routes, "/api/");
-    this.initializeErrorHandling()
+    this.initializeErrorHandling();
   }
 
   public async listen() {
@@ -25,10 +31,8 @@ class App {
   }
 
   private initializeMiddlewares() {
- 
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
-
   }
 
   private initializeRoutes(routes: Routes[], basePath: string) {

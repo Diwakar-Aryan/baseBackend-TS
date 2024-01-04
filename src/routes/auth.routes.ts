@@ -12,7 +12,6 @@ class AuthRoutes implements Routes {
     }
 
     private async initializeRoutes(){
-        console.log(this.path)
         this.router.get(`${this.path}/sessions/oauth/google`,this.authController.googleOauth)
         this.router.post(`${this.path}/signUp`,this.authController.signUp)
         this.router.post(`${this.path}/signIn`,this.authController.signIn)

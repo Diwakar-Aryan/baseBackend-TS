@@ -12,6 +12,8 @@ class fileRoutes implements Routes {
 
     private async initializeRoutes(){
         this.router.post(`${this.path}/uploaded`,this.fileController.postFile)
+        this.router.get(`${this.path}/getFiles`,this.fileController.getFile)
+
     }
 
 }

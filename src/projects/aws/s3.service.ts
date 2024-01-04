@@ -46,10 +46,14 @@ export default class S3Service {
         Key: `${options.Key}`,
       };
       const command = new GetObjectCommand(params);
-      const presignedUploadUrl = await getSignedUrl(this.s3, command, { expiresIn: 3600 })
+      console.log(command);
+      
+      const presignedDownloadUrl = await getSignedUrl(this.s3, command, { expiresIn: 3600 })
+      console.log(presignedDownloadUrl);
+      
       return new HttpResponse(
         "Presigned Url Generated",
-        presignedUploadUrl,
+        presignedDownloadUrl,
         HttpStatus.OK
       );
     } catch (error) {

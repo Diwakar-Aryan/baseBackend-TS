@@ -12,6 +12,8 @@ class s3Routes implements Routes {
 
     private async initializeRoutes(){
         this.router.post(`${this.path}/putPresignedUrl`,this.s3Controller.putPresignedUrl)
+        this.router.post(`${this.path}/getPresignedUrl`,this.s3Controller.getPresignedUrl)
+
     }
 
 }

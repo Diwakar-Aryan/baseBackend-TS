@@ -25,6 +25,20 @@ export class MongoMethod {
         }
     }
     
+    public async findAll(collection_name: string,params: any){
+        try {
+            let collection = this.mongoClient.collection(collection_name);
+            let data = await collection.find(params).toArray(); 
+            console.log(data);
+            
+            return data || {}
+        } catch (error) {
+            console.log(error);
+            throw error
+            
+        }
+    }
+    
     public async insertOne(collection_name:string,params:any) {
         try {
             let collection = this.mongoClient.collection(collection_name);

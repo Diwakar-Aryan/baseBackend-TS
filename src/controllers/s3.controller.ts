@@ -27,6 +27,8 @@ class S3Controller {
     next: NextFunction
   ) => {
     try {
+      console.log('hh');
+      
       //get the code from qs
       const options = req.body;
       const response = await this.s3Service.getPresignedUrl(options);
