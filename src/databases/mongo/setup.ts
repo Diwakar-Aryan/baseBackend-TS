@@ -2,8 +2,7 @@ import { MongoClient, ServerApiVersion } from "mongodb";
 import configClass from "../../configs";
 
 export default class MongoClientClass {
-  uri: string =
-    "mongodb+srv://diwakarAryan:Aryan123@cluster0.u6mz1dv.mongodb.net/?retryWrites=true&w=majority";
+  uri: string =""
   private client!: MongoClient;
   private static mongoClient: MongoClientClass;
   private configs = configClass.initialize()
