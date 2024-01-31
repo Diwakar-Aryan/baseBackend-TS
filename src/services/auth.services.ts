@@ -4,12 +4,12 @@ import jwt from 'jsonwebtoken'
 import CryptoJS from 'crypto-js'
 import configClass from '../configs'
 const config = {
-    NEXT_PUBLIC_GOOGLE_CLIENT_ID:
-    '40371381493-jgkjo26qsn0qbrna3be9iab89mgq90do.apps.googleusercontent.com',
-  NEXT_PUBLIC_SERVER_ENDPOINT: 'http://localhost:1337',
-  NEXT_PUBLIC_GOOGLE_OAUTH_REDIRECT_URL:
-    'http://localhost:1337/api/sessions/oauth/google',
-    NEXT_PUBLIC_GOOGLE_CLIENT_SECRET : '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'
+  //   NEXT_PUBLIC_GOOGLE_CLIENT_ID:
+  //   '40371381493-jgkjo26qsn0qbrna3be9iab89mgq90do.apps.googleusercontent.com',
+  // NEXT_PUBLIC_SERVER_ENDPOINT: 'http://localhost:1337',
+  // NEXT_PUBLIC_GOOGLE_OAUTH_REDIRECT_URL:
+  //   'http://localhost:1337/api/sessions/oauth/google',
+  //   NEXT_PUBLIC_GOOGLE_CLIENT_SECRET : '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'
 }
 export async function getGoogleOAuthTokens ({code}:{code:string}) {
     try {
